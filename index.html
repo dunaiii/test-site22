@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
   :root{
     --navy:#17233D;
@@ -98,7 +97,8 @@
     text-decoration:none;
   }
   .brand-mark{
-    width:38px; height:38px;
+    width:auto; height:38px;
+    padding:0 9px;
     background:var(--navy);
     border:1px solid rgba(241,233,218,0.18);
     border-radius:7px;
@@ -496,35 +496,63 @@
     color:rgba(255,255,255,0.6);
     text-transform:uppercase;
   }
-  .map-box{
+  .coverage-visual{
     position:relative;
     border-radius:10px;
     overflow:hidden;
     border:1px solid rgba(255,255,255,0.14);
     box-shadow:0 30px 60px -24px rgba(0,0,0,0.5);
+    background:
+      radial-gradient(circle at 30% 20%, rgba(227,153,60,0.08), transparent 55%),
+      var(--navy-2);
+    padding:44px 32px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:30px;
   }
-  #map{ height:380px; width:100%; filter:saturate(0.9) contrast(1.02); }
-  .stamp{
-    position:absolute;
-    top:18px; right:18px;
-    width:92px; height:92px;
+  .country-stamp{
+    width:172px; height:172px;
     border-radius:50%;
-    border:2.5px solid var(--amber);
-    color:var(--amber);
+    border:3px dashed var(--amber);
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    transform:rotate(-11deg);
-    font-family:'IBM Plex Mono', monospace;
-    background:rgba(23,35,61,0.72);
-    backdrop-filter:blur(2px);
-    text-align:center;
-    line-height:1.15;
-    pointer-events:none;
+    transform:rotate(-7deg);
+    flex-shrink:0;
   }
-  .stamp b{font-size:22px; font-family:'Oswald',sans-serif;}
-  .stamp span{font-size:8.5px; letter-spacing:0.12em;}
+  .country-stamp-code{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:52px;
+    color:var(--amber);
+    line-height:1;
+    letter-spacing:0.02em;
+  }
+  .country-stamp-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.14em;
+    color:rgba(255,255,255,0.85);
+    margin-top:8px;
+    text-transform:uppercase;
+  }
+  .city-tags{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+  .city-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.04em;
+    color:rgba(255,255,255,0.82);
+    border:1px dashed rgba(255,255,255,0.3);
+    border-radius:999px;
+    padding:6px 14px;
+  }
 
   /* ---------- WHY US ---------- */
   .why{
@@ -655,24 +683,6 @@
     letter-spacing:0.05em;
   }
 
-  /* leaflet marker override */
-  .radius-label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px;
-    font-weight:600;
-    color:var(--navy);
-    background:var(--amber);
-    padding:2px 6px;
-    border-radius:3px;
-    white-space:nowrap;
-  }
-  .center-dot{
-    width:12px;height:12px;
-    background:var(--amber);
-    border:2px solid var(--navy);
-    border-radius:50%;
-  }
-
   @media (max-width: 920px){
     .hero .wrap{grid-template-columns:1fr;}
     .hero-art{order:-1;}
@@ -700,7 +710,8 @@
     .tape{left:-30px; width:130px;}
     .brands{gap:20px;}
     .coverage-stats{gap:20px;}
-    #map{height:300px;}
+    .country-stamp{width:132px; height:132px;}
+    .country-stamp-code{font-size:38px;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -715,14 +726,13 @@
   <nav class="nav">
     <a href="#top" class="brand">
       <div class="brand-mark">
-        <svg width="27" height="27" viewBox="0 0 40 40" fill="none">
-          <path d="M8 9 4 7M32 9l4-2" stroke="#F1E9DA" stroke-width="1.5" stroke-linecap="round"/>
-          <rect x="8" y="6" width="24" height="23" rx="3" stroke="#F1E9DA" stroke-width="1.6"/>
-          <line x1="20" y1="6" x2="20" y2="29" stroke="#F1E9DA" stroke-width="1.4"/>
-          <path d="M16.5 16.5h2.5M21 16.5h2.5" stroke="#E3993C" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M11 10v4M29 10v4" stroke="#F1E9DA" stroke-width="1.3" stroke-linecap="round"/>
-          <circle cx="13.5" cy="31.5" r="3.4" stroke="#F1E9DA" stroke-width="1.6"/>
-          <circle cx="26.5" cy="31.5" r="3.4" stroke="#F1E9DA" stroke-width="1.6"/>
+        <svg width="52" height="27" viewBox="0 0 68 36" fill="none">
+          <rect x="2" y="7" width="46" height="16" rx="3" stroke="#F1E9DA" stroke-width="1.6"/>
+          <path d="M48 7h6l6 6v3H48" stroke="#F1E9DA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="48" y1="7" x2="48" y2="16" stroke="#F1E9DA" stroke-width="1.4"/>
+          <line x1="7" y1="15" x2="14" y2="15" stroke="#E3993C" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="16" cy="26" r="4.3" stroke="#F1E9DA" stroke-width="1.6"/>
+          <circle cx="52" cy="26" r="4.3" stroke="#F1E9DA" stroke-width="1.6"/>
         </svg>
       </div>
       <div>
@@ -856,13 +866,13 @@
   <section class="coverage on-dark" id="coverage">
     <div class="wrap">
       <div>
-        <div class="eyebrow t" data-uk="Зона обслуговування" data-pl="Obszar działania"></div>
-        <h2 class="t" data-uk="Варшава і +20 км навколо" data-pl="Warszawa i +20 km wokół"></h2>
-        <p class="t" data-uk="Виїжджаємо за місто без прихованих доплат. Точну вартість погоджуємо заздалегідь по телефону." data-pl="Wyjeżdżamy poza miasto bez ukrytych dopłat. Dokładną cenę ustalamy wcześniej telefonicznie."></p>
+        <div class="eyebrow t" data-uk="Географія роботи" data-pl="Zasięg działania"></div>
+        <h2 class="t" data-uk="Працюємо по всій Польщі" data-pl="Działamy na terenie całej Polski"></h2>
+        <p class="t" data-uk="Базуємось у Варшаві, але виїжджаємо в будь-яке місто країни. Маршрут і вартість погоджуємо по телефону заздалегідь." data-pl="Bazujemy w Warszawie, ale wyjeżdżamy do każdego miasta w kraju. Trasę i cenę ustalamy wcześniej telefonicznie."></p>
         <div class="coverage-stats">
           <div class="coverage-stat">
-            <b>20 км</b>
-            <span class="t" data-uk="радіус виїзду" data-pl="promień dojazdu"></span>
+            <b class="t" data-uk="Вся Польща" data-pl="Cała Polska"></b>
+            <span class="t" data-uk="зона виїзду" data-pl="obszar dojazdu"></span>
           </div>
           <div class="coverage-stat">
             <b>7/7</b>
@@ -870,9 +880,19 @@
           </div>
         </div>
       </div>
-      <div class="map-box">
-        <div id="map"></div>
-        <div class="stamp"><b>20 KM</b><span class="t" data-uk="РАДІУС" data-pl="PROMIEŃ"></span></div>
+      <div class="coverage-visual">
+        <div class="country-stamp">
+          <span class="country-stamp-code">PL</span>
+          <span class="country-stamp-label t" data-uk="Вся країна" data-pl="Cały kraj"></span>
+        </div>
+        <div class="city-tags">
+          <span class="city-tag t" data-uk="Варшава" data-pl="Warszawa"></span>
+          <span class="city-tag t" data-uk="Краків" data-pl="Kraków"></span>
+          <span class="city-tag t" data-uk="Вроцлав" data-pl="Wrocław"></span>
+          <span class="city-tag t" data-uk="Гданськ" data-pl="Gdańsk"></span>
+          <span class="city-tag t" data-uk="Познань" data-pl="Poznań"></span>
+          <span class="city-tag t" data-uk="Лодзь" data-pl="Łódź"></span>
+        </div>
       </div>
     </div>
   </section>
@@ -943,14 +963,13 @@
   <div class="wrap">
     <div class="brand" style="text-decoration:none;">
       <div class="brand-mark">
-        <svg width="24" height="24" viewBox="0 0 40 40" fill="none">
-          <path d="M8 9 4 7M32 9l4-2" stroke="#F1E9DA" stroke-width="1.5" stroke-linecap="round"/>
-          <rect x="8" y="6" width="24" height="23" rx="3" stroke="#F1E9DA" stroke-width="1.6"/>
-          <line x1="20" y1="6" x2="20" y2="29" stroke="#F1E9DA" stroke-width="1.4"/>
-          <path d="M16.5 16.5h2.5M21 16.5h2.5" stroke="#E3993C" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M11 10v4M29 10v4" stroke="#F1E9DA" stroke-width="1.3" stroke-linecap="round"/>
-          <circle cx="13.5" cy="31.5" r="3.4" stroke="#F1E9DA" stroke-width="1.6"/>
-          <circle cx="26.5" cy="31.5" r="3.4" stroke="#F1E9DA" stroke-width="1.6"/>
+        <svg width="46" height="24" viewBox="0 0 68 36" fill="none">
+          <rect x="2" y="7" width="46" height="16" rx="3" stroke="#F1E9DA" stroke-width="1.6"/>
+          <path d="M48 7h6l6 6v3H48" stroke="#F1E9DA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="48" y1="7" x2="48" y2="16" stroke="#F1E9DA" stroke-width="1.4"/>
+          <line x1="7" y1="15" x2="14" y2="15" stroke="#E3993C" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="16" cy="26" r="4.3" stroke="#F1E9DA" stroke-width="1.6"/>
+          <circle cx="52" cy="26" r="4.3" stroke="#F1E9DA" stroke-width="1.6"/>
         </svg>
       </div>
       <span class="brand-word">Na-Trans</span>
@@ -959,7 +978,6 @@
   </div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
   // ---------- Language switching ----------
   var texts = document.querySelectorAll('.t');
@@ -1029,38 +1047,6 @@
       }
     });
   });
-
-  // ---------- Map ----------
-  var warsaw = [52.2297, 21.0122];
-  var map = L.map('map', {
-    scrollWheelZoom:false,
-    zoomControl:true,
-    attributionControl:true
-  }).setView(warsaw, 9);
-
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:'&copy; OpenStreetMap',
-    maxZoom:18
-  }).addTo(map);
-
-  L.circle(warsaw, {
-    radius: 20000,
-    color: '#E3993C',
-    weight: 2.5,
-    dashArray: '7 7',
-    fillColor: '#E3993C',
-    fillOpacity: 0.08
-  }).addTo(map);
-
-  var centerIcon = L.divIcon({
-    className:'',
-    html:'<div class="center-dot"></div>',
-    iconSize:[12,12]
-  });
-  L.marker(warsaw, {icon:centerIcon}).addTo(map)
-    .bindTooltip('Warszawa', {permanent:false, direction:'top', className:'radius-label'});
-
-  map.fitBounds(L.circle(warsaw, {radius:20000}).getBounds(), {padding:[6,6]});
 </script>
 
 </body>
